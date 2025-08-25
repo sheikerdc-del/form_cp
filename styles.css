@@ -1,124 +1,138 @@
-<!DOCTYPE html>
-<html lang="ru">
+:root {
+  --bg: #0b1020;
+  --card: #121833;
+  --text: #e9ecf8;
+  --muted: #9aa3c7;
+  --primary: #6c8cff;
+  --primary-700: #5776ff;
+  --danger: #ff6b6b;
+  --border: #1e2647;
+  --focus: #a2b4ff;
+}
 
-<head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Сбор КП конкурентов</title>
-	<link rel="stylesheet" href="styles.css" />
-</head>
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f8fd;
+    --card: #ffffff;
+    --text: #172339;
+    --muted: #5b6b8b;
+    --primary: #3b6cf5;
+    --primary-700: #2e58cc;
+    --danger: #d9534f;
+    --border: #dfe3ee;
+    --focus: #7ea2ff;
+  }
+}
 
-<body>
-	<main class="container">
-		<h1>Сбор КП конкурентов</h1>
-		<p class="subtitle">Заполните форму для фиксации КП конкурентов. Загрузка файла КП поддерживается.</p>
+* { box-sizing: border-box; }
 
-		<form id="kp-form" novalidate>
-			<section class="card">
-				<h2>Данные о компании</h2>
-				<div class="grid">
-					<div class="field">
-						<label for="companyName">Название компании конкурента*</label>
-						<input type="text" id="companyName" name="companyName" required maxlength="200" placeholder="ООО Ромашка"/>
-						<div class="error" data-error-for="companyName"></div>
-					</div>
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: radial-gradient(1200px 800px at 20% -20%, #1a2250 0%, transparent 60%), var(--bg);
+  color: var(--text);
+}
 
-					<div class="field">
-						<label for="proposalTitle">Название/тематика КП*</label>
-						<input type="text" id="proposalTitle" name="proposalTitle" required maxlength="200" placeholder="Поставка оборудования..."/>
-						<div class="error" data-error-for="proposalTitle"></div>
-					</div>
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+}
 
-					<div class="field">
-						<label for="amount">Сумма предложения*</label>
-						<input type="number" id="amount" name="amount" required min="0" step="0.01" placeholder="100000"/>
-						<div class="error" data-error-for="amount"></div>
-					</div>
+h1 { font-size: 28px; margin: 0 0 8px; letter-spacing: 0.2px; }
+h2 { font-size: 18px; margin: 0 0 16px; color: var(--muted); font-weight: 600; }
 
-					<div class="field">
-						<label for="currency">Валюта*</label>
-						<select id="currency" name="currency" required>
-              <option value="">Выберите валюту</option>
-              <option value="RUB">RUB</option>
-              <option value="USD">USD</option>
-              <option value="EUR">EUR</option>
-            </select>
-						<div class="error" data-error-for="currency"></div>
-					</div>
+.subtitle {
+  color: var(--muted);
+  margin: 0 0 24px;
+}
 
-					<div class="field">
-						<label for="proposalDate">Дата КП*</label>
-						<input type="date" id="proposalDate" name="proposalDate" required/>
-						<div class="error" data-error-for="proposalDate"></div>
-					</div>
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.02) 100%), var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 16px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+}
 
-					<div class="field">
-						<label for="sourceLink">Ссылка на источник</label>
-						<input type="url" id="sourceLink" name="sourceLink" placeholder="https://..."/>
-						<div class="error" data-error-for="sourceLink"></div>
-					</div>
-				</div>
-			</section>
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.field--full { grid-column: 1 / -1; }
 
-			<section class="card">
-				<h2>Контактные данные</h2>
-				<div class="grid">
-					<div class="field">
-						<label for="contactPerson">Контактное лицо</label>
-						<input type="text" id="contactPerson" name="contactPerson" maxlength="150" placeholder="Иван Иванов"/>
-          </div>
+.field label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: var(--text);
+}
 
-						<div class="field">
-							<label for="phone">Телефон</label>
-							<input type="tel" id="phone" name="phone" maxlength="30" placeholder="+7 900 000-00-00"/>
-          </div>
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="email"],
+input[type="tel"],
+input[type="url"],
+input[type="file"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px 12px;
+  border: 1px solid var(--border);
+  background: #0e1430;
+  color: var(--text);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s, background .15s;
+}
 
-							<div class="field">
-								<label for="email">Email</label>
-								<input type="email" id="email" name="email" maxlength="150" placeholder="name@example.com"/>
-								<div class="error" data-error-for="email"></div>
-							</div>
-						</div>
-			</section>
+@media (prefers-color-scheme: light) {
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="file"],
+  select,
+  textarea { background: #fff; }
+}
 
-			<section class="card">
-				<h2>Файл КП и комментарии</h2>
-				<div class="grid">
-					<div class="field">
-						<label for="proposalFile">Файл КП (PDF, DOCX, XLSX, не более 20 МБ)</label>
-						<input type="file" id="proposalFile" name="proposalFile" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg"/>
-						<div class="hint">Файл будет сохранён в указанную папку Google Drive.</div>
-						<div class="error" data-error-for="proposalFile"></div>
-					</div>
+input:focus, select:focus, textarea:focus {
+  border-color: var(--focus);
+  box-shadow: 0 0 0 3px rgba(126,162,255,0.25);
+}
 
-					<div class="field field--full">
-						<label for="notes">Комментарии</label>
-						<textarea id="notes" name="notes" rows="4" maxlength="2000" placeholder="Ключевые условия, сроки, особенности..."></textarea>
-					</div>
-				</div>
-			</section>
+.hint { color: var(--muted); font-size: 12px; margin-top: 6px; }
+.error { color: var(--danger); font-size: 12px; margin-top: 6px; min-height: 16px; }
 
-			<section class="consent">
-				<label class="checkbox">
-          <input type="checkbox" id="consent" name="consent" required/>
-          <span>Я подтверждаю корректность указанных данных и согласен(на) на обработку данных*</span>
-        </label>
-				<div class="error" data-error-for="consent"></div>
-			</section>
+.consent { margin: 18px 0; }
+.checkbox { display: flex; gap: 10px; align-items: flex-start; color: var(--muted); }
+.checkbox input { margin-top: 3px; }
 
-			<div class="actions">
-				<button type="submit" id="submitBtn" class="btn btn-primary">Отправить</button>
-				<button type="reset" class="btn btn-secondary">Очистить</button>
-			</div>
+.actions { display: flex; gap: 10px; margin-top: 10px; }
 
-			<div id="formStatus" role="status" aria-live="polite" class="status"></div>
-		</form>
-	</main>
+.btn {
+  padding: 12px 18px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  font-weight: 600;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-700) 100%);
+  color: white;
+  border: none;
+}
+.btn-primary:disabled { opacity: .7; cursor: not-allowed; }
+.btn-secondary { background: transparent; color: var(--text); }
 
-	<script>
-		window.GAS_ENDPOINT = "https://script.google.com/macros/s/AKfycbwTAho44BudTxck1KUP7MHX2KL5QtSFdxj_ksL4SKMjBrqFAT0Tt8TybgYAN0YIL1ur/exec";
-	</script>
-	<script src="script.js" defer></script>
-</body>
+.status { margin-top: 14px; min-height: 20px; color: var(--muted); }
 
-</html>
+@media (max-width: 700px) {
+  .grid { grid-template-columns: 1fr; }
+}
