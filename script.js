@@ -1,4 +1,3 @@
-// javascript
 (() => {
   "use strict";
 
@@ -87,7 +86,7 @@
   };
 
   const fetchWithTimeout = (resource, options = {}) => {
-    const { timeout = 30000 } = options;
+    const { timeout = 60000 } = options;
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), timeout);
     return fetch(resource, { ...options, signal: controller.signal })
@@ -97,7 +96,7 @@
   const explainNetworkError = (err) => {
     if (err.name === "AbortError") return "Превышено время ожидания ответа сервера.";
     if (err.message?.includes("Failed to fetch")) {
-      return "Не удалось установить соединение: проверьте CORS, доступность URL, HTTPS и сетевые блокировки.";
+      return "Не удалось установить соединение. Повторите попытку позже.";
     }
     return err.message || "Неизвестная ошибка сети.";
   };
@@ -123,8 +122,6 @@
       const res = await fetchWithTimeout(endpoint, {
         method: "POST",
         body: data,
-        // ВАЖНО: не задавайте вручную headers['Content-Type'] для FormData!
-        // credentials: "omit"  // по умолчанию
       });
 
       const ct = res.headers.get("content-type") || "";
